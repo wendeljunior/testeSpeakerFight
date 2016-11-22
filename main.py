@@ -192,16 +192,37 @@ def publish(check): #marca ou desmarca a opcao publish
 		driver.execute_script("document.getElementById('uniform-id_is_published').childNodes[0].className = '';")
 
 
-def allowPublicVting(check): #marca ou desmarca a opcao Allow Public Voting
+def allowPublicVoting(check): #marca ou desmarca a opcao Allow Public Voting
 	if check == True:
 		driver.execute_script("document.getElementById('uniform-id_allow_public_voting').childNodes[0].className = 'checked';")
 	else:
 		driver.execute_script("document.getElementById('uniform-id_allow_public_voting').childNodes[0].className = '';")
 
-def configData(): #Faz todo o proceso para definir a data do evento
+def preencheData(mes, dia, ano, hora, minutos): #Faz todo o proceso para definir a data do evento
 	driver.find_element_by_id("id_due_date_0").click() #clica em Due Date para poder setar data
-	
+	driver.find_element_by_id("id_due_date_0").send_keys(str(mes)+'/'+str(dia)+'/'+str(ano)+' '+str(hora)+':'+str(minutos))
+	driver.find_element_by_id("id_due_date_0").send_keys(Keys.Enter)
 
+def preencheLugares(qtLugares): #Define quantidade de lugares na plateia
+	driver.find_element_by_id("id_slots").send_keys(qtLugares)
+
+def anonymousVoting(check): #Marca a opcao de permitir voto anonimo
+	if check == True:
+		driver.execute_script("document.getElementById('uniform-id_anonymous_voting').childNodes[0].className = 'checked';")
+	else:
+		driver.execute_script("document.getElementById('uniform-id_anonymous_voting').childNodes[0].className = '';")
+
+def confirmaCriacaoEvento(): #clica em submit para finalizar criacao de evento
+	driver.find_element_by_css_selector(".btn-flat .success .text-upper")
+
+def clickEvents(): #clica em 'Events' no menu lateral esquerdo
+	driver.execute_script("document.getElementById('dashboard-menu').childNodes[1].getElementsByTagName('a')[0].click();")
+
+def clickMyProposals(): #clica em 'My Proposals' no menu lateral esquerdo
+	driver.execute_script("document.getElementById('dashboard-menu').childNodes[3].getElementsByTagName('a')[0].click();")
+
+def clickMyEvents(): #clica em 'My Events' no menu lateral esquerdo
+	driver.execute_script(" document.getElementById('dashboard-menu').childNodes[5].getElementsByTagName('a')[0].click();")
 
 
 comecar()
