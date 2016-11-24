@@ -20,14 +20,17 @@ def comecar():
 	time.sleep(2)
 
 def signin():
+	global driver
 	driver.execute_script("document.getElementsByTagName('a')[1].click()")
 	driver.execute_script("document.body.querySelectorAll('*[href=\"/accounts/login/\"]')[0].click();")
 
 def signup():
+	global driver
 	driver.execute_script(r"document.body.querySelectorAll('*[href=\"/accounts/signup/?next=%2Fevents%2Fcreate%2F\"]')[0].click();") #SIGN UP
 	time.sleep(2)
 
 def tentaCriarNovoEvento():
+	global driver
 	driver.execute_script(r"document.body.querySelectorAll('*[href=\"/events/create/\"]')[0].click();") #NEW EVENT
 	time.sleep(2)
 
@@ -191,7 +194,6 @@ def publish(check): #marca ou desmarca a opcao publish
 	else:
 		driver.execute_script("document.getElementById('uniform-id_is_published').childNodes[0].className = '';")
 
-
 def allowPublicVoting(check): #marca ou desmarca a opcao Allow Public Voting
 	if check == True:
 		driver.execute_script("document.getElementById('uniform-id_allow_public_voting').childNodes[0].className = 'checked';")
@@ -225,10 +227,9 @@ def clickMyEvents(): #clica em 'My Events' no menu lateral esquerdo
 	driver.execute_script(" document.getElementById('dashboard-menu').childNodes[5].getElementsByTagName('a')[0].click();")
 
 
-comecar()
-signin()
-loginTestador()
-'''
+#comecar()
+#signin()
+#loginTestador()
 tentaCriarNovoEvento()
 tentaCriarNovoEvento()
 tentaCriarContaSemUserName()
@@ -236,6 +237,5 @@ tentaCriarContaSemEmail()
 tentaCriarContaSemSenha()
 tentaCriarContaSemConfirmSenha()
 tentaCriarContaSenhaMenor()
-criaConta()
-driver.close()
-'''
+#criaConta()
+#driver.close()
