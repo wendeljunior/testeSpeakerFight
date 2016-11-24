@@ -10,42 +10,47 @@ from selenium.webdriver.support.ui import Select
 import selenium.webdriver.support.ui as ui
 import time
 
+
 driver = None
+lento = 4 # 4 segundos
+medio = 2 # 2 segundos
+rapido = 1 # 1 segundo
 
 def comecar():
 	global driver
 	driver = webdriver.Chrome(r"./chromedriver")
 	driver.get("http://127.0.0.1:8000/")
 	driver.execute_script(r"document.body.querySelectorAll('*[href=\"/events/\"]')[0].click();") #GET STARTED
-	time.sleep(2)
+	time.sleep(lento)
 
 def signin():
 	global driver
 	driver.execute_script("document.getElementsByTagName('a')[1].click()")
 	driver.execute_script("document.body.querySelectorAll('*[href=\"/accounts/login/\"]')[0].click();")
+	time.sleep(rapido)
 
 def signup():
 	global driver
-	driver.execute_script(r"document.body.querySelectorAll('*[href=\"/accounts/signup/?next=%2Fevents%2Fcreate%2F\"]')[0].click();") #SIGN UP
-	time.sleep(2)
+	driver.execute_script(r"document.body.querySelectorAll('*[href=\"/accounts/signup/\"]')[0].click();") #SIGN UP
+	time.sleep(medio)
 
 def tentaCriarNovoEvento():
 	global driver
 	driver.execute_script(r"document.body.querySelectorAll('*[href=\"/events/create/\"]')[0].click();") #NEW EVENT
-	time.sleep(2)
+	time.sleep(lento)
 
 
-def criaConta():
+def criaConta(nome, email, senha):
 	driver.find_element_by_id("id_username").clear()
-	driver.find_element_by_id("id_username").send_keys("testador")
+	driver.find_element_by_id("id_username").send_keys(nome) #testador
 	driver.find_element_by_id("id_email").clear()
-	driver.find_element_by_id("id_email").send_keys("123@mail.com")
+	driver.find_element_by_id("id_email").send_keys(email) #123@mail.com
 	driver.find_element_by_id("id_password1").clear()
-	driver.find_element_by_id("id_password1").send_keys("123ABC")
+	driver.find_element_by_id("id_password1").send_keys(senha) #123ABC
 	driver.find_element_by_id("id_password2").clear()
-	driver.find_element_by_id("id_password2").send_keys("123ABC")
-	driver.execute_script("document.getElementsByTagName(\"button\")[1].click();")
-	time.sleep(3)
+	driver.find_element_by_id("id_password2").send_keys(senha)
+	driver.execute_script("document.getElementsByTagName(\"button\")[0].click();")
+	time.sleep(lento)
 
 
 def tentaCriarContaSemUserName():
@@ -55,8 +60,8 @@ def tentaCriarContaSemUserName():
 	driver.find_element_by_id("id_password1").send_keys("123")
 	driver.find_element_by_id("id_password2").clear()
 	driver.find_element_by_id("id_password2").send_keys("123")
-	driver.execute_script("document.getElementsByTagName(\"button\")[1].click();")
-	time.sleep(3)
+	driver.execute_script("document.getElementsByTagName(\"button\")[0].click();")
+	time.sleep(lento)
 
 def tentaCriarContaSemEmail():
 	driver.find_element_by_id("id_username").clear()
@@ -66,8 +71,8 @@ def tentaCriarContaSemEmail():
 	driver.find_element_by_id("id_password1").send_keys("123")
 	driver.find_element_by_id("id_password2").clear()
 	driver.find_element_by_id("id_password2").send_keys("123")
-	driver.execute_script("document.getElementsByTagName(\"button\")[1].click();")
-	time.sleep(3)
+	driver.execute_script("document.getElementsByTagName(\"button\")[0].click();")
+	time.sleep(lento)
 
 def tentaCriarContaSemSenha():
 	driver.find_element_by_id("id_username").clear()
@@ -77,8 +82,8 @@ def tentaCriarContaSemSenha():
 	driver.find_element_by_id("id_password1").clear()
 	driver.find_element_by_id("id_password2").clear()
 	driver.find_element_by_id("id_password2").send_keys("123")
-	driver.execute_script("document.getElementsByTagName(\"button\")[1].click();")
-	time.sleep(3)
+	driver.execute_script("document.getElementsByTagName(\"button\")[0].click();")
+	time.sleep(lento)
 
 def tentaCriarContaSemConfirmSenha():
 	driver.find_element_by_id("id_username").clear()
@@ -88,8 +93,8 @@ def tentaCriarContaSemConfirmSenha():
 	driver.find_element_by_id("id_password1").clear()
 	driver.find_element_by_id("id_password1").send_keys("123")
 	driver.find_element_by_id("id_password2").clear()
-	driver.execute_script("document.getElementsByTagName(\"button\")[1].click();")
-	time.sleep(3)
+	driver.execute_script("document.getElementsByTagName(\"button\")[0].click();")
+	time.sleep(lento)
 
 def tentaCriarContaSenhaMenor():
 	driver.find_element_by_id("id_username").clear()
@@ -100,8 +105,8 @@ def tentaCriarContaSenhaMenor():
 	driver.find_element_by_id("id_password1").send_keys("123")
 	driver.find_element_by_id("id_password2").clear()
 	driver.find_element_by_id("id_password2").send_keys("123")
-	driver.execute_script("document.getElementsByTagName(\"button\")[1].click();")
-	time.sleep(3)
+	driver.execute_script("document.getElementsByTagName(\"button\")[0].click();")
+	time.sleep(lento)
 
 def loginTestador():
 	input_login = driver.find_element_by_id("id_login")
@@ -110,14 +115,17 @@ def loginTestador():
 	input_senha = driver.find_element_by_id("id_password")
 	input_senha.clear()
 	input_senha.send_keys("123ABC")
-	driver.execute_script("document.getElementsByClassName('success')[0].click()")
+	driver.execute_script("document.getElementsByClassName('success')[0].click();")
+	time.sleep(rapido)
 
 
-def insereTituloEvento(title):
-	driver.find_element_by_id("id_title").send_keys(title)
+def insereTituloEvento(titulo):
+	driver.execute_script("document.getElementById('id_title').value = '%s';"%titulo)
+	time.sleep(medio)
 
 def insereDescricaoEvento(descricao):
-	driver.find_element_by_id("mceu_25").send_keys(descricao)
+	driver.execute_script("document.getElementById('mceu_25').value = '%s';"%descricao)
+	time.sleep(medio)
 
 def clickNegrito():
 	driver.execute_script("document.getElementsByTagName('button')[1].click();")
@@ -154,38 +162,38 @@ def limparFormatacao():
 def titulacao(): #Headings
 	driver.execute_script("document.getElementsByTagName('button')[14].click()")
 	driver.execute_script("document.getElementById('mceu_47-text').click()")
-	time.sleep(2)	
+	time.sleep(rapido)	
 	driver.execute_script("document.getElementById('mceu_48-text').click()")
-	time.sleep(2)	
+	time.sleep(rapido)	
 	driver.execute_script("document.getElementById('mceu_49-text').click()")
-	time.sleep(2)	
+	time.sleep(rapido)	
 	driver.execute_script("document.getElementById('mceu_50-text').click()")
-	time.sleep(2)	
+	time.sleep(rapido)	
 	driver.execute_script("document.getElementById('mceu_51-text').click()")
-	time.sleep(2)	
+	time.sleep(rapido)	
 	driver.execute_script("document.getElementById('mceu_52-text').click()")
-	time.sleep(2)	
+	time.sleep(rapido)	
 	driver.execute_script("document.getElementById('mceu_53-text').click()")
 
 def tamanhoFonte(): #Set font size
 	driver.execute_script("document.getElementById('mceu_13-open').click()")
 	driver.execute_script("document.getElementById(mceu_55-text).click()")
-	time.sleep(2)
+	time.sleep(rapido)
 	driver.execute_script("document.getElementById(mceu_56-text).click()")
-	time.sleep(2)
+	time.sleep(rapido)
 	driver.execute_script("document.getElementById(mceu_57-text).click()")
-	time.sleep(2)
+	time.sleep(rapido)
 	driver.execute_script("document.getElementById(mceu_58-text).click()")
-	time.sleep(2)
+	time.sleep(rapido)
 	driver.execute_script("document.getElementById(mceu_59-text).click()")
-	time.sleep(2)
+	time.sleep(rapido)
 	driver.execute_script("document.getElementById(mceu_60-text).click()")
-	time.sleep(2)
+	time.sleep(rapido)
 	driver.execute_script("document.getElementById(mceu_61-text).click()")
 
 def clickPreVisualizar(): #clica no botao preview
 	driver.execute_script("document.getElementsByTagName('button')[17].click()") #Preview
-	time.sleep(4)
+	time.sleep(lento)
 	driver.find_element_by_class_name("mce-close").click() #Close Preview
 
 def publish(check): #marca ou desmarca a opcao publish
@@ -226,16 +234,28 @@ def clickMyProposals(): #clica em 'My Proposals' no menu lateral esquerdo
 def clickMyEvents(): #clica em 'My Events' no menu lateral esquerdo
 	driver.execute_script(" document.getElementById('dashboard-menu').childNodes[5].getElementsByTagName('a')[0].click();")
 
+def href():
+	driver.find_element_by_href()
 
-#comecar()
-#signin()
-#loginTestador()
-tentaCriarNovoEvento()
-tentaCriarNovoEvento()
+
+'''
+#Teste Cricao de conta
+comecar()
+signin()
+signup()
+criaConta('testador', 'testador@mail.com', '123ABC')
 tentaCriarContaSemUserName()
 tentaCriarContaSemEmail()
 tentaCriarContaSemSenha()
 tentaCriarContaSemConfirmSenha()
 tentaCriarContaSenhaMenor()
-#criaConta()
-#driver.close()
+'''
+
+
+#Teste criacao de eventos
+comecar()
+signin()
+loginTestador()
+tentaCriarNovoEvento()
+insereTituloEvento("Aprovação na Disciplina de Teste de Software")
+insereDescricaoEvento("Neste maravilhoso encontro, vamos comemorar a aprovação dos alunos que sobreviveram a mais uma disciplina de mais um semestre no glorioso Bacharelado em Tecnologia da Informação.")
