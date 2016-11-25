@@ -123,9 +123,40 @@ def insereTituloEvento(titulo):
 	driver.execute_script("document.getElementById('id_title').value = '%s';"%titulo)
 	time.sleep(medio)
 
+'''
+#funcao quebrada pela utilizacao de elemento virtual no HTML
 def insereDescricaoEvento(descricao):
-	driver.execute_script("document.getElementById('mceu_25').value = '%s';"%descricao)
+	driver.find_element_by_id('tinymce').send_keys(descricao)
 	time.sleep(medio)
+'''
+
+def insereData(data):
+	driver.find_element_by_id('id_due_date_0').clear()
+	driver.find_element_by_id('id_due_date_0').send_keys(data)
+	driver.find_element_by_id('id_due_date_0').send_keys(Keys.ENTER)
+	driver.find_element_by_id('id_due_date_0').send_keys(Keys.ENTER)
+	driver.find_element_by_id('id_due_date_0').send_keys(Keys.ENTER)
+	time.sleep(rapido)
+
+
+def inserePrazo(prazo):
+	driver.find_element_by_id('id_slots').clear()
+	driver.find_element_by_id('id_slots').send_keys(prazo)
+	time.sleep(rapido)
+
+def clickSubmit():
+	driver.find_element_by_class_name('success').click()
+	time.sleep(medio)
+
+def clickSendProposal():
+	driver.find_element_by_class_name('success').click()
+
+def insereTituloProposal(proposal):
+	driver.execute_script("document.getElementById('id_title').value = '%s';"%proposal)
+	time.sleep(medio)
+
+def insereMoreInformation(info):
+	driver.find_element_by_id("id_more_information").send_keys(info)
 
 def clickNegrito():
 	driver.execute_script("document.getElementsByTagName('button')[1].click();")
@@ -238,7 +269,7 @@ def href():
 	driver.find_element_by_href()
 
 
-'''
+
 #Teste Cricao de conta
 comecar()
 signin()
@@ -249,13 +280,19 @@ tentaCriarContaSemEmail()
 tentaCriarContaSemSenha()
 tentaCriarContaSemConfirmSenha()
 tentaCriarContaSenhaMenor()
-'''
-
-
-#Teste criacao de eventos
+driver.close()
+#Teste criacao de eventos e proposals
 comecar()
 signin()
 loginTestador()
 tentaCriarNovoEvento()
-insereTituloEvento("Aprovação na Disciplina de Teste de Software")
-insereDescricaoEvento("Neste maravilhoso encontro, vamos comemorar a aprovação dos alunos que sobreviveram a mais uma disciplina de mais um semestre no glorioso Bacharelado em Tecnologia da Informação.")
+insereTituloEvento("Aprovacao na Disciplina de Teste de Software")
+insereData("10/10/2010 05:30")
+inserePrazo(1000000)
+clickSubmit()
+clickSendProposal()
+insereTituloProposal("Maneiras de Converter Boas Intencoes em Pontos no Final do Semestre")
+insereMoreInformation("Neste maravilhoso encontro, vamos comemorar a aprovacao dos alunos que sobreviveram a mais uma disciplina de mais um semestre no glorioso Bacharelado em Tecnologia da Informacao. Ou nao.")
+clickSubmit()
+
+
